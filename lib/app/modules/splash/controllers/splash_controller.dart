@@ -4,44 +4,14 @@ import '../../../core/services/auth_service.dart';
 import '../../../routes/app_routes.dart';
 import '../../../core/constants/app_constants.dart';
 
-class SplashController extends GetxController with GetSingleTickerProviderStateMixin {
+class SplashController extends GetxController {
   final StorageService _storageService = Get.find<StorageService>();
   final AuthService _authService = Get.find<AuthService>();
-
-  late AnimationController animationController;
-  late Animation<double> fadeAnimation;
-  late Animation<double> scaleAnimation;
 
   @override
   void onInit() {
     super.onInit();
-    _initializeAnimations();
     _navigateAfterDelay();
-  }
-
-  void _initializeAnimations() {
-    animationController = AnimationController(
-      duration: const Duration(milliseconds: AppConstants.splashAnimationDuration),
-      vsync: this,
-    );
-
-    fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: animationController,
-      curve: Curves.easeInOut,
-    ));
-
-    scaleAnimation = Tween<double>(
-      begin: 0.5,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: animationController,
-      curve: Curves.elasticOut,
-    ));
-
-    animationController.forward();
   }
 
   void _navigateAfterDelay() {
@@ -63,11 +33,5 @@ class SplashController extends GetxController with GetSingleTickerProviderStateM
     } else {
       Get.offAllNamed(Routes.login);
     }
-  }
-
-  @override
-  void onClose() {
-    animationController.dispose();
-    super.onClose();
   }
 }

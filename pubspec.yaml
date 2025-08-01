@@ -24,6 +24,7 @@ dependencies:
   # UI Components & Animations
   lottie: ^2.7.0
   animations: ^2.0.11
+  flutter_animate: ^4.5.0
   cached_network_image: ^3.3.0
   smooth_page_indicator: ^1.1.0
   flutter_staggered_animations: ^1.1.1

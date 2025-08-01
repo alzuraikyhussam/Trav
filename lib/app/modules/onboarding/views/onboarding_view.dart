@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../../../core/constants/app_colors.dart';
 import '../controllers/onboarding_controller.dart';
 
@@ -25,7 +26,10 @@ class OnboardingView extends GetView<OnboardingController> {
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: AppColors.textSecondary,
                     ),
-                  )),
+                  ))
+                      .animate()
+                      .fadeIn(duration: 400.ms)
+                      .slideY(begin: -0.2, end: 0),
                   TextButton(
                     onPressed: controller.skipOnboarding,
                     child: Text(
@@ -35,7 +39,18 @@ class OnboardingView extends GetView<OnboardingController> {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(delay: 200.ms, duration: 400.ms)
+                      .slideX(begin: 0.3, end: 0)
+                      .then()
+                      .animate(
+                        onPlay: (controller) => controller.repeat(reverse: true),
+                      )
+                      .shimmer(
+                        duration: 2000.ms,
+                        color: AppColors.primary.withOpacity(0.3),
+                      ),
                 ],
               ),
             ),
@@ -69,7 +84,10 @@ class OnboardingView extends GetView<OnboardingController> {
                       dotWidth: 8,
                       spacing: 16,
                     ),
-                  )),
+                  ))
+                      .animate()
+                      .fadeIn(delay: 600.ms, duration: 600.ms)
+                      .slideY(begin: 0.3, end: 0),
                   
                   const SizedBox(height: 30),
                   
@@ -81,9 +99,18 @@ class OnboardingView extends GetView<OnboardingController> {
                           ? Expanded(
                               child: OutlinedButton(
                                 onPressed: controller.previousPage,
+                                style: OutlinedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(vertical: 16),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
                                 child: const Text('Previous'),
                               ),
                             )
+                              .animate()
+                              .fadeIn(duration: 300.ms)
+                              .slideX(begin: -0.3, end: 0)
                           : const Expanded(child: SizedBox())),
                       
                       const SizedBox(width: 16),
@@ -93,12 +120,39 @@ class OnboardingView extends GetView<OnboardingController> {
                         flex: 2,
                         child: Obx(() => ElevatedButton(
                           onPressed: controller.nextPage,
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            backgroundColor: AppColors.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 4,
+                          ),
                           child: Text(
                             controller.isLastPage.value
                                 ? 'Get Started'
                                 : 'Next',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        )),
+                        ))
+                            .animate()
+                            .fadeIn(delay: 800.ms, duration: 600.ms)
+                            .slideY(begin: 0.3, end: 0)
+                            .then()
+                            .animate(
+                              target: controller.isLastPage.value ? 1 : 0,
+                            )
+                            .scaleXY(end: 1.05, duration: 200.ms)
+                            .then()
+                            .animate(
+                              onPlay: (animController) => controller.isLastPage.value 
+                                  ? animController.repeat(reverse: true, min: 0.95)
+                                  : null,
+                            )
+                            .scaleXY(end: 1.02, duration: 1000.ms),
                       ),
                     ],
                   ),
@@ -118,80 +172,84 @@ class OnboardingView extends GetView<OnboardingController> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Animated Icon
-          TweenAnimationBuilder<double>(
-            duration: const Duration(milliseconds: 800),
-            tween: Tween(begin: 0.0, end: 1.0),
-            builder: (context, value, child) {
-              return Transform.scale(
-                scale: value,
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: item.color.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(100),
-                    border: Border.all(
-                      color: item.color.withOpacity(0.3),
-                      width: 2,
-                    ),
-                  ),
-                  child: Icon(
-                    item.image,
-                    size: 80,
-                    color: item.color,
-                  ),
+          Container(
+            width: 200,
+            height: 200,
+            decoration: BoxDecoration(
+              color: item.color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(100),
+              border: Border.all(
+                color: item.color.withOpacity(0.3),
+                width: 2,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: item.color.withOpacity(0.2),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
                 ),
-              );
-            },
-          ),
+              ],
+            ),
+            child: Icon(
+              item.image,
+              size: 80,
+              color: item.color,
+            ),
+          )
+              .animate()
+              .scale(
+                duration: 800.ms,
+                curve: Curves.elasticOut,
+                begin: const Offset(0.3, 0.3),
+              )
+              .fadeIn(duration: 600.ms)
+              .then(delay: 300.ms)
+              .shake(hz: 1, curve: Curves.easeInOut)
+              .then()
+              .animate(
+                onPlay: (controller) => controller.repeat(reverse: true),
+              )
+              .scaleXY(end: 1.05, duration: 2000.ms),
           
           const SizedBox(height: 50),
           
           // Title
-          TweenAnimationBuilder<double>(
-            duration: const Duration(milliseconds: 600),
-            tween: Tween(begin: 0.0, end: 1.0),
-            builder: (context, value, child) {
-              return Opacity(
-                opacity: value,
-                child: Transform.translate(
-                  offset: Offset(0, 30 * (1 - value)),
-                  child: Text(
-                    item.title,
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              );
-            },
-          ),
+          Text(
+            item.title,
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: AppColors.textPrimary,
+            ),
+            textAlign: TextAlign.center,
+          )
+              .animate(delay: 200.ms)
+              .fadeIn(duration: 800.ms)
+              .slideY(begin: 0.3, end: 0)
+              .then(delay: 100.ms)
+              .shimmer(
+                duration: 1200.ms,
+                color: item.color.withOpacity(0.3),
+              ),
           
           const SizedBox(height: 20),
           
           // Description
-          TweenAnimationBuilder<double>(
-            duration: const Duration(milliseconds: 800),
-            tween: Tween(begin: 0.0, end: 1.0),
-            builder: (context, value, child) {
-              return Opacity(
-                opacity: value,
-                child: Transform.translate(
-                  offset: Offset(0, 20 * (1 - value)),
-                  child: Text(
-                    item.description,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: AppColors.textSecondary,
-                      height: 1.5,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              );
-            },
-          ),
+          Text(
+            item.description,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: AppColors.textSecondary,
+              height: 1.6,
+            ),
+            textAlign: TextAlign.center,
+          )
+              .animate(delay: 400.ms)
+              .fadeIn(duration: 800.ms)
+              .slideY(begin: 0.2, end: 0)
+              .then(delay: 500.ms)
+              .animate(
+                onPlay: (controller) => controller.repeat(reverse: true),
+              )
+              .fadeIn(begin: 0.8, end: 1.0, duration: 3000.ms),
         ],
       ),
     );
