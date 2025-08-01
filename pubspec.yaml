@@ -1,0 +1,68 @@
+name: travel_booking_app
+description: "A travel booking mobile application with GetX architecture"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management & Navigation
+  get: ^4.6.6
+  
+  # HTTP & API
+  dio: ^5.4.0
+  
+  # Storage
+  get_storage: ^2.1.1
+  shared_preferences: ^2.2.2
+  
+  # UI Components & Animations
+  lottie: ^2.7.0
+  animations: ^2.0.11
+  flutter_animate: ^4.5.0
+  cached_network_image: ^3.3.0
+  smooth_page_indicator: ^1.1.0
+  flutter_staggered_animations: ^1.1.1
+  
+  # Image & File handling
+  image_picker: ^1.0.4
+  permission_handler: ^11.1.0
+  
+  # Form validation
+  validators: ^3.0.0
+  
+  # Date & Time
+  intl: ^0.18.1
+  
+  # Utils
+  flutter_screenutil: ^5.9.0
+  gap: ^3.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/animations/
+  
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
