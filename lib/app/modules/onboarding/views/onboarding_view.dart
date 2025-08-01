@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../core/constants/app_colors.dart';
+import '../../../utils/custom_widgets.dart';
 import '../controllers/onboarding_controller.dart';
 
 class OnboardingView extends GetView<OnboardingController> {
@@ -97,20 +98,15 @@ class OnboardingView extends GetView<OnboardingController> {
                       // Previous Button
                       Obx(() => controller.currentPage.value > 0
                           ? Expanded(
-                              child: OutlinedButton(
+                              child: AnimatedSecondaryButton(
+                                text: 'Previous',
                                 onPressed: controller.previousPage,
-                                style: OutlinedButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                ),
-                                child: const Text('Previous'),
-                              ),
+                                icon: Icons.arrow_back,
+                              )
+                                  .animate()
+                                  .fadeIn(duration: 300.ms)
+                                  .slideX(begin: -0.3, end: 0),
                             )
-                              .animate()
-                              .fadeIn(duration: 300.ms)
-                              .slideX(begin: -0.3, end: 0)
                           : const Expanded(child: SizedBox())),
                       
                       const SizedBox(width: 16),
@@ -118,41 +114,18 @@ class OnboardingView extends GetView<OnboardingController> {
                       // Next/Get Started Button
                       Expanded(
                         flex: 2,
-                        child: Obx(() => ElevatedButton(
+                        child: Obx(() => AnimatedPrimaryButton(
+                          text: controller.isLastPage.value
+                              ? 'Get Started'
+                              : 'Next',
                           onPressed: controller.nextPage,
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            backgroundColor: AppColors.primary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            elevation: 4,
-                          ),
-                          child: Text(
-                            controller.isLastPage.value
-                                ? 'Get Started'
-                                : 'Next',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          icon: controller.isLastPage.value
+                              ? Icons.rocket_launch
+                              : Icons.arrow_forward,
                         ))
                             .animate()
                             .fadeIn(delay: 800.ms, duration: 600.ms)
-                            .slideY(begin: 0.3, end: 0)
-                            .then()
-                            .animate(
-                              target: controller.isLastPage.value ? 1 : 0,
-                            )
-                            .scaleXY(end: 1.05, duration: 200.ms)
-                            .then()
-                            .animate(
-                              onPlay: (animController) => controller.isLastPage.value 
-                                  ? animController.repeat(reverse: true, min: 0.95)
-                                  : null,
-                            )
-                            .scaleXY(end: 1.02, duration: 1000.ms),
+                            .slideY(begin: 0.3, end: 0),
                       ),
                     ],
                   ),
