@@ -16,6 +16,14 @@ import '../modules/trip_details/bindings/trip_details_binding.dart';
 import '../modules/trip_details/views/trip_details_view.dart';
 import '../modules/traveler_info/bindings/traveler_info_binding.dart';
 import '../modules/traveler_info/views/traveler_info_view.dart';
+import '../modules/payment/bindings/payment_binding.dart';
+import '../modules/payment/views/payment_view.dart';
+import '../modules/ticket/bindings/ticket_binding.dart';
+import '../modules/ticket/views/ticket_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
+import '../modules/booking_history/bindings/booking_history_binding.dart';
+import '../modules/booking_history/views/booking_history_view.dart';
 
 class AppPages {
   static const initial = Routes.splash;
@@ -73,6 +81,30 @@ class AppPages {
       name: Routes.travelerInfo,
       page: () => const TravelerInfoView(),
       binding: TravelerInfoBinding(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: Routes.payment,
+      page: () => const PaymentView(),
+      binding: PaymentBinding(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: Routes.ticket,
+      page: () => const TicketView(),
+      binding: TicketBinding(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: Routes.profile,
+      page: () => const ProfileView(),
+      binding: ProfileBinding(),
+      transition: Transition.rightToLeft,
+    ),
+    GetPage(
+      name: Routes.bookingHistory,
+      page: () => const BookingHistoryView(),
+      binding: BookingHistoryBinding(),
       transition: Transition.rightToLeft,
     ),
   ];

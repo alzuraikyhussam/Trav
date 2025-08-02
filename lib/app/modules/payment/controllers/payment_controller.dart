@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../data/models/trip_model.dart';
 import '../../../data/models/booking_model.dart';
 import '../../../core/services/api_service.dart';
+import '../../routes/app_routes.dart';
 
 class PaymentController extends GetxController with GetTickerProviderStateMixin {
   // Services
@@ -217,8 +218,8 @@ class PaymentController extends GetxController with GetTickerProviderStateMixin 
 
       // Navigate to ticket view
       Get.offNamedUntil(
-        '/ticket',
-        (route) => route.settings.name == '/carriers',
+        Routes.ticket,
+        (route) => route.settings.name == Routes.carriers,
         arguments: {
           'booking': paymentData,
           'trip': trip,
