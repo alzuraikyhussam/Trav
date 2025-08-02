@@ -14,6 +14,8 @@ import '../modules/trips/bindings/trips_binding.dart';
 import '../modules/trips/views/trips_view.dart';
 import '../modules/trip_details/bindings/trip_details_binding.dart';
 import '../modules/trip_details/views/trip_details_view.dart';
+import '../modules/traveler_info/bindings/traveler_info_binding.dart';
+import '../modules/traveler_info/views/traveler_info_view.dart';
 
 class AppPages {
   static const initial = Routes.splash;
@@ -66,6 +68,12 @@ class AppPages {
       page: () => const TripDetailsView(),
       binding: TripDetailsBinding(),
       transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: Routes.travelerInfo,
+      page: () => const TravelerInfoView(),
+      binding: TravelerInfoBinding(),
+      transition: Transition.rightToLeft,
     ),
   ];
 }
